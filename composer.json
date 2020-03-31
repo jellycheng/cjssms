@@ -1,0 +1,30 @@
+{
+    "name": "cjs/sms",
+    "description": "sms",
+    "keywords": [],
+    "license": "MIT",
+    "homepage": "http://www.nfangbian.com",
+    "authors": [
+        {
+            "name": "jelly",
+            "email": "42282367@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "cjs/redis":"dev-master",
+        "cjs/token":"dev-master"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "CjsSms\\": "src/"
+        },
+        "files": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {}
+    },
+    "suggest": {}
+}
