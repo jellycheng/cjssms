@@ -14,6 +14,9 @@ if(!$phone || !CjsSms\Util::checkPhone($phone)) {
 }
 $smsTplCode = 'COMMON_VERIFY_CODE';
 $param = ['code'=>mt_rand(1111, 9999)];
+//写redis todo
+
+//写db、发短信
 $isOk = $smsServerObj->sendSms($phone,$smsTplCode,$param);//发短信
 var_dump($isOk);
 echo PHP_EOL;

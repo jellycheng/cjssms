@@ -141,10 +141,12 @@ class AliyunSms
         $sortQueryString = $this->param2Str($urlParam);
         $sign = ShaHmac1Sign::newInstance()->sign($this->stringToSign('GET', $sortQueryString), $accessKeySecret.'&');
         $sign = $this->specialUrlEncode($sign);
-        //curl请求
+        //http请求
         $smsUrl = sprintf('%s?Signature=%s&%s',$this->getUrl(),$sign,$sortQueryString);
         $ret = $this->request4get($smsUrl);
-
+        if(isset($ret['Code']) && 'OK' == $ret['Code']) {
+            $flag = true;
+        }
         return $flag;
     }
 
@@ -170,8 +172,15 @@ class AliyunSms
 
     protected function request4get($smsUrl, $ext = []) {
         //{"Message":"OK","RequestId":"9D696506-53E1-4E97-B95D-3B158E0BB93C","BizId":"708319185652234112^0","Code":"OK"}
-        $ret = file_get_contents($smsUrl);
-
+        $ret = [];
+        $tmp = file_get_contents($smsUrl);
+        if($tmp) {
+            $tmpAry = json_decode($tmp,true);
+            if(isset($tmpAry['Code']) && 'OK' == strtoupper($tmpAry['Code'])) {
+                $tmpAry['Code'] = 'OK';
+            }
+            $ret = $tmpAry;
+        }
         return $ret;
     }
 
