@@ -20,7 +20,7 @@ $code = mt_rand(111, 99999);
 $smsLog = [
     'msg_id'=>CjsSms\Util::uuid($phone),
     'tpl_snapshoot'=>CjsSms\Util::json_encode($tplCodeInfo),
-    'sign'=>'汉薇商城',
+    'sign'=>'xx商城',
     'phone'=>$phone,
     'params'=>CjsSms\Util::json_encode(['code'=>$code]),//接口传进来的变量
 ];
