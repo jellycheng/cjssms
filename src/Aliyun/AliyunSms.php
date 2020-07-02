@@ -110,6 +110,12 @@ class AliyunSms
             $channel = \json_decode($channel, true);
             $templateCode = isset($channel['code'])?$channel['code']:'';
         }
+        $curZone = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+        $Timestamp = date('Y-m-d\TH:i:s\Z', $time);
+        if($curZone) {
+            date_default_timezone_set($curZone);
+        }
         $urlParam = [
                 'Action'=>$action,
                 'AccessKeyId'=>$accessKeyId,
@@ -118,7 +124,7 @@ class AliyunSms
                 'SignatureMethod'=>ShaHmac1Sign::newInstance()->getMethod(),
                 'SignatureNonce'=>Util::uuid($outId),
                 'SignatureVersion'=>ShaHmac1Sign::newInstance()->getVersion(),
-                'Timestamp'=>date('Y-m-d\TH:i:s\Z', $time), //格式为yyyy-MM-ddTHH:mm:ssZ 示例：2018-01-01T12:00:00Z
+                'Timestamp'=>$Timestamp, //格式为yyyy-MM-ddTHH:mm:ssZ 示例：2018-01-01T12:00:00Z
                 'Version'=>'2017-05-25',
         ];
         $urlParam['OutId'] = $outId;
@@ -173,7 +179,7 @@ class AliyunSms
     protected function request4get($smsUrl, $ext = []) {
         //{"Message":"OK","RequestId":"9D696506-53E1-4E97-B95D-3B158E0BB93C","BizId":"708319185652234112^0","Code":"OK"}
         $ret = [];
-        $tmp = file_get_contents($smsUrl);
+        $tmp = @file_get_contents($smsUrl);
         if($tmp) {
             $tmpAry = json_decode($tmp,true);
             if(isset($tmpAry['Code']) && 'OK' == strtoupper($tmpAry['Code'])) {

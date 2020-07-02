@@ -1,8 +1,10 @@
 <?php
-
+ini_set('date.timezone', 'Asia/Shanghai');
 $vendorFile = dirname(__DIR__)  .  '/vendor/autoload.php';
 if(file_exists($vendorFile)) {
     require $vendorFile;
+    #设置redis配置文件
+    \CjsRedis\ConfigFile::setFile(__DIR__ . '/config/redis.php');
 } else {
     spl_autoload_register(function ($class) {
         $ns = 'CjsSms';
@@ -21,5 +23,4 @@ if(file_exists($vendorFile)) {
 
 }
 
-#设置redis配置文件
-\CjsRedis\ConfigFile::setFile(__DIR__ . '/config/redis.php');
+
